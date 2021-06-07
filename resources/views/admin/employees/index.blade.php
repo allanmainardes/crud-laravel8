@@ -1,3 +1,8 @@
+@extends('admin.layouts.app')
+
+@section('title', 'Lista de funcionarios - ')
+
+@section('content')
 <style>
 thead{
     background-color: #b3b3b3;
@@ -54,3 +59,5 @@ thead{
 @else
     {{ $employees->links()}}
 @endif
+
+@endsection

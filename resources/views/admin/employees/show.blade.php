@@ -1,3 +1,10 @@
+@extends('admin.layouts.app')
+
+
+@section('title', 'Detalhes do funcionario - ')
+
+@section('content')
+
 <style>
 thead{
     background-color: #b3b3b3;
@@ -9,6 +16,7 @@ thead{
 }
 
 </style>
+
 <h1> Detalhes do funcionário: {{$employee->name}} </h1>
 @csrf
 <table style="text-align:center;">
@@ -35,4 +43,6 @@ thead{
     </tbody>
 </table>
 
+
+@endsection
 
