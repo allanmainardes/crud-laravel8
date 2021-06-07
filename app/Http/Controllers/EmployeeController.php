@@ -75,4 +75,13 @@ class EmployeeController extends Controller
             ->with('message', 'Cadastro alterado com sucesso!');
 
     }
+
+    public function search(Request $request){
+
+        $parameters = $request->except('_token');
+        $employees = Employee::where('name', 'LIKE', "%{$request->search}%")
+        ->orWhere('role', 'LIKE', "%{$request->search}%")
+        ->paginate();
+        return view('admin.employees.index', compact('employees', 'parameters'));
+    }
 }

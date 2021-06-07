@@ -15,6 +15,11 @@ thead{
     </div>
 @endif
 
+<form action="{{ route('employees.search')}}" method="post">
+    @csrf
+    <input type="text" name="search" id="search" placeholder="Procurar:">
+    <button type="submit">Buscar</button>
+</form>
 
 <a href="{{route('employees.create')}}">Adicionar Funcionario</a>
 <h1> Employees </h1>
@@ -44,5 +49,8 @@ thead{
 </table>
         
 <hr>
-
-{{$employees->links()}}
+@if(isset($parameters))
+    {{$employees->appends($parameters)->links()}}
+@else
+    {{ $employees->links()}}
+@endif

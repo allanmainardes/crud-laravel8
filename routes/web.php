@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::any('/funcionarios/search', [EmployeeController::class, 'search'])->name('employees.search');
 Route::put('/funcionarios/edit/{name}', [EmployeeController::class, 'update'])->name('employees.update');
 Route::get('/funcionarios/edit/{name}', [EmployeeController::class, 'edit'])->name('employees.edit');
 Route::get('/funcionarios/add', [EmployeeController::class, 'create'])->name('employees.create');
