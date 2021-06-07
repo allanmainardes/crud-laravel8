@@ -43,4 +43,6 @@ thead{
     </tbody>
 </table>
         
-</table>
+<hr>
+
+{{$employees->links()}}

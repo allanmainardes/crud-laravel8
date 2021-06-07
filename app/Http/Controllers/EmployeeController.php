@@ -8,8 +8,11 @@ use Illuminate\Http\Request;
 class EmployeeController extends Controller
 {
     public function index(){
-
-        $employees = Employee::get();
+        $employees = Employee::paginate();
+        //$employees = Employee::orderBy('name')->paginate(3);
+        //$employees = Employee::orderBy('name', 'asc')->paginate(3);
+        //$employees = Employee::latest()->paginate(3);
+        //$employees = Employee::get();
         return view('admin.employees.index', compact('employees'));
 
     }
