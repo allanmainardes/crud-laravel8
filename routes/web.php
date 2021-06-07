@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/funcionarios/add', [EmployeeController::class, 'create'])->name("employees.create");
+Route::put('/funcionarios/edit/{name}', [EmployeeController::class, 'update'])->name('employees.update');
+Route::get('/funcionarios/edit/{name}', [EmployeeController::class, 'edit'])->name('employees.edit');
+Route::get('/funcionarios/add', [EmployeeController::class, 'create'])->name('employees.create');
 Route::delete('/funcionarios/{name}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
 Route::get('/funcionarios/{name}', [EmployeeController::class, 'show'])->name('employees.show');
 Route::post('/funcionarios/add', [EmployeeController::class, 'insert'])->name('employees.insert');

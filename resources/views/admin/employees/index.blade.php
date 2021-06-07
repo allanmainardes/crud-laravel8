@@ -33,7 +33,11 @@ thead{
         <tr>
             <td>{{ $employee->name }}</td>
             <td>{{ $employee->age }}</td>
-            <td><a href="{{route('employees.show', $employee->name)}}">Ver</a></td>
+            <td>
+                <a href="{{route('employees.show', $employee->name)}}">Ver</a>
+                <a href="{{route('employees.edit', $employee->name)}}">Editar</a>
+
+            </td>
         </tr>
 @endforeach
     </tbody>

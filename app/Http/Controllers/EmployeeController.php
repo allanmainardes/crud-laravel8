@@ -21,7 +21,9 @@ class EmployeeController extends Controller
     public function insert(IncludeUpdateEmployee $request){
 
         $employee = Employee::create($request->all());
-        return redirect()->route('employees.index');
+        return redirect()
+            ->route('employees.index')
+            ->with('message', 'Cadastro feito com sucesso!');
 
     }
 
@@ -45,5 +47,29 @@ class EmployeeController extends Controller
         return redirect()
         ->route('employees.index')
         ->with('message', 'Funcionário removido com sucesso!');
+    }
+
+    public function edit($name){
+        
+        if(!$employee = Employee::where('name', $name)->first()){
+            return redirect()->back();
+        }
+        
+        return view('admin.employees.edit', compact('employee'));
+
+    }
+
+    public function update(IncludeUpdateEmployee $request, $name){
+
+        if(!$employee = Employee::where('name', $name)->first()){
+            return redirect()->back();
+        }       
+
+        $employee->update($request->all());
+
+        return redirect()
+            ->route('employees.index')
+            ->with('message', 'Cadastro alterado com sucesso!');
+
     }
 }
