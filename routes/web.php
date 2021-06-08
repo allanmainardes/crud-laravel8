@@ -25,6 +25,13 @@ Route::get('/funcionarios/{name}', [EmployeeController::class, 'show'])->name('e
 Route::post('/funcionarios/add', [EmployeeController::class, 'insert'])->name('employees.insert');
 Route::get('/funcionarios', [EmployeeController::class, 'index'])->name('employees.index');
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+require __DIR__.'/auth.php';
