@@ -32,6 +32,7 @@ thead{
 <table style="text-align:center;">
     <thead>
         <tr>
+            <th>Foto</th>
             <th>Nome</th>
             <th>Idade</th>
             <th></th>
@@ -40,12 +41,14 @@ thead{
     <tbody >
         
 @foreach ($employees as $employee)
+
         <tr>
+            <td><img src="{{ url("storage/{$employee->image}") }}" alt="{{$employee->name}}" style="width: 100px;"></img></td>
             <td>{{ $employee->name }}</td>
             <td>{{ $employee->age }}</td>
             <td>
-                <a href="{{route('employees.show', $employee->name)}}">Ver</a>
-                <a href="{{route('employees.edit', $employee->name)}}">Editar</a>
+                <a href="{{route('employees.show', $employee->id)}}">Ver</a>
+                <a href="{{route('employees.edit', $employee->id)}}">Editar</a>
 
             </td>
         </tr>

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class IncludeUpdateEmployee extends FormRequest
 {
@@ -23,10 +24,36 @@ class IncludeUpdateEmployee extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required|min:5|max:160',
-            'role' => 'required|min:3|max:160',
-            'age' => 'required|min:2|max:2|lt:99|gt:17'
+        $id = $this->segment(3);
+
+        $rules = [
+            'name' => [
+                'required', 
+                'min:5', 
+                'max:160', 
+                Rule::unique('employees')->ignore($id),
+            ],
+            'role' => [
+                'required', 
+                'min:3', 
+                'max:160'
+            ],
+            'age' => [
+                'required', 
+                'min:2', 
+                'lt:100', 
+                'gt:17'
+            ],
+            'image' => [
+                'required', 
+                'image'
+            ]
         ];
+
+        if($this->method() == 'PUT'){
+            $rules['image'] = ['nullable', 'image'];
+        }
+
+        return  $rules;
     }
 }

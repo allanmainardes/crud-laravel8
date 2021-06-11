@@ -8,6 +8,7 @@
 
 
 @csrf
+<input type="file" id ="image" name="image" value= "{{ $employee->image ?? old('image')}}">
 <input type="text" name="name" id="name" placeholder="Nome completo" value= "{{ $employee->name ?? old('name')}}">
 <input type="text" name="role" id="role" placeholder="Cargo" value= "{{ $employee->role ?? old('role')}}">
 <input type="number" name="age" id="age" placeholder="Idade" value= "{{ $employee->age ?? old('age')}}">

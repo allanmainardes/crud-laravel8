@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use App\Http\Requests\IncludeUpdateEmployee;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 class EmployeeController extends Controller
 {
     public function index(){
@@ -23,16 +24,28 @@ class EmployeeController extends Controller
 
     public function insert(IncludeUpdateEmployee $request){
 
-        $employee = Employee::create($request->all());
+        $data = $request->all();
+
+        if($request->image && $request->image->isValid()){
+            
+            $nameFile = Str::of($request->name)->slug('-') . "." . $request->image->getClientOriginalExtension();
+
+            $image = $request->image->storeAs('employees', $nameFile);
+
+            $data['image'] = $image;
+
+        }
+
+        Employee::create($data);
         return redirect()
-            ->route('employees.index')
-            ->with('message', 'Cadastro feito com sucesso!');
+        ->route('employees.index')
+        ->with('message', 'Cadastro feito com sucesso!');
 
     }
 
-    public function show($name){
+    public function show($id){
         
-        if(!$employee = Employee::where('name', $name)->first()){
+        if(!$employee = Employee::find($id)){
             return redirect()->route('employees.index');
         }
         
@@ -40,10 +53,14 @@ class EmployeeController extends Controller
 
     }
 
-    public function destroy($name){
+    public function destroy($id){
 
-        if(!$employee = Employee::where('name', $name)->first()){
+        if(!$employee = Employee::find($id)){
             return redirect()->route('employees.index');
+        }
+        
+        if(Storage::exists($employee->image)){
+            Storage::delete($employee->image);
         }
         $employee->delete();
 
@@ -52,9 +69,9 @@ class EmployeeController extends Controller
         ->with('message', 'Funcionário removido com sucesso!');
     }
 
-    public function edit($name){
+    public function edit($id){
         
-        if(!$employee = Employee::where('name', $name)->first()){
+        if(!$employee = Employee::find($id)){
             return redirect()->back();
         }
         
@@ -62,13 +79,33 @@ class EmployeeController extends Controller
 
     }
 
-    public function update(IncludeUpdateEmployee $request, $name){
+    public function update(IncludeUpdateEmployee $request, $id){
 
-        if(!$employee = Employee::where('name', $name)->first()){
+        if(!$employee = Employee::find($id)){
+            return redirect()->back();
+        }
+
+        $data = $request->all();
+
+        if($request->image && $request->image->isValid()){
+            
+            if(Storage::exists($employee->image)){
+                Storage::delete($employee->image);
+            }
+
+            $nameFile = Str::of($request->name)->slug('-') . "." . $request->image->getClientOriginalExtension();
+
+            $image = $request->image->storeAs('employees', $nameFile);
+
+            $data['image'] = $image;
+
+        }
+
+        if(!$employee = Employee::find($id)){
             return redirect()->back();
         }       
 
-        $employee->update($request->all());
+        $employee->update($data);
 
         return redirect()
             ->route('employees.index')
